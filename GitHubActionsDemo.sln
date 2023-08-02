@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9E13F85E-5CC4-4F3A-99A6-7B50DA6D9EC5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubActionsDemo.WebApi", "src\GitHubActionsDemo.WebApi\GitHubActionsDemo.WebApi.csproj", "{47A0DDD9-7FB3-4398-B521-9447CDC4684F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{99A3118D-1E35-4BE8-8DA3-BE005A00E08C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubActionsDemo.WebApi.Tests", "tests\GitHubActionsDemo.WebApi.Tests\GitHubActionsDemo.WebApi.Tests.csproj", "{74274F48-11B1-4CAB-A910-6B76BCD4500C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BFB0F7D0-5D70-4A34-AED3-A0982F608CAC}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bicep", "bicep", "{1C5015C6-DE9B-4A49-A285-E75315A47B1B}"
+	ProjectSection(SolutionItems) = preProject
+		bicep\deploy-app-service.bicep = bicep\deploy-app-service.bicep
+		bicep\deploy.bicep = bicep\deploy.bicep
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47A0DDD9-7FB3-4398-B521-9447CDC4684F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A0DDD9-7FB3-4398-B521-9447CDC4684F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A0DDD9-7FB3-4398-B521-9447CDC4684F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A0DDD9-7FB3-4398-B521-9447CDC4684F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74274F48-11B1-4CAB-A910-6B76BCD4500C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74274F48-11B1-4CAB-A910-6B76BCD4500C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74274F48-11B1-4CAB-A910-6B76BCD4500C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74274F48-11B1-4CAB-A910-6B76BCD4500C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{47A0DDD9-7FB3-4398-B521-9447CDC4684F} = {9E13F85E-5CC4-4F3A-99A6-7B50DA6D9EC5}
+		{74274F48-11B1-4CAB-A910-6B76BCD4500C} = {99A3118D-1E35-4BE8-8DA3-BE005A00E08C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7639303C-62F1-44C0-8CF8-6DF2D3DF325F}
+	EndGlobalSection
+EndGlobal
