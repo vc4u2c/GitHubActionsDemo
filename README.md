@@ -87,7 +87,7 @@ gh auth status
 
 # Set secrets
 gh secret set AZURE_SUBSCRIPTION -b {subscription-id} -R vc4u2c/GitHubActionsDemo
-# If this does not work
+# If this does not work then enter manually in the UI
 gh secret set AZURE_CREDENTIALS -b @'
 {
   "clientId": "xxx",
