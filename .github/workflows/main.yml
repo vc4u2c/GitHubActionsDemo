@@ -31,7 +31,7 @@ jobs:
         with:
           name: TestResults
           path: TestResults
-          if: always()
+        if: always()
 
       - name: Publish
         run: dotnet publish ./GitHubActionsDemo.sln --configuration release --no-build
