@@ -59,7 +59,7 @@ jobs:
       - name: Deploy Azure Infrastructure
         uses: azure/arm-deploy@v1
         with:
-          resourceGroupName: "rg-${{ secrets.APPLICATION_NAME }}-${{ env.LOCATION }}"
+          resourceGroupName: "rg-${{ secrets.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-${{ env.LOCATION }}"
           template: ./bicep/deploy.bicep
           parameters: "pApplicationName=${{ secrets.APPLICATION_NAME }} pEnv=${{ env.ENVIRONMENT }}"
           failOnStdErr: false
