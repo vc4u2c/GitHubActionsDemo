@@ -75,8 +75,8 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            value = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml -o tsv)
-            echo $value
+            ippub = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml -o tsv az webapp deployment list-publishing-profiles --name app-githubactionsdemo-dev --resource-group rg-githubactionsdemo-dev-eastus --subscription sub-vc4u2c-demo --xml --query value)
+            echo $ippub
 
       - name: Deploy
         uses: azure/webapps-deploy@v2
