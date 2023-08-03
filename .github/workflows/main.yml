@@ -77,7 +77,7 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            publishProfile = az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml
+            publishProfile = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
 
       - name: Deploy
         uses: azure/webapps-deploy@v2
