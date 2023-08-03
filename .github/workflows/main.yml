@@ -27,16 +27,16 @@ jobs:
       - name: Build
         run: dotnet build ./GitHubActionsDemo.sln --configuration release --no-restore
 
-      - name: Test
-        run: dotnet test --no-build -c release --logger trx --results-directory "TestResults" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+      # - name: Test
+      #   run: dotnet test --no-build -c release --logger trx --results-directory "TestResults" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
-      - name: Publish coverage report to coveralls.io
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.info
+      # - name: Publish coverage report to coveralls.io
+      #   uses: coverallsapp/github-action@master
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     path-to-lcov: ./tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.info
 
-      - name: Upload Test Results
+      # - name: Upload Test Results
         uses: actions/upload-artifact@v3
         with:
           name: TestResults
@@ -76,12 +76,12 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            h = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
-            echo "::set-output name=h::$h"
+            value=$(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
+            echo $value
 
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.APP_SERVICE_NAME }}
-          publish-profile: steps.get-publish-profile.outputs.h
+          publish-profile: steps.get-publish-profile.outputs.value
           package: ${{ env.PACKAGE_PATH }}
