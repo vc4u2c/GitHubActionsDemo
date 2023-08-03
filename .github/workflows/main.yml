@@ -81,5 +81,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.APP_SERVICE_NAME }}
+            echo "::add-mask::$APP_SERVICE_PUBLISH_PROFILE"
           publish-profile: ${{ steps.get-publish-profile.outputs.APP_SERVICE_PUBLIC_PROFILE }}
           package: ${{ env.PACKAGE_PATH }}
