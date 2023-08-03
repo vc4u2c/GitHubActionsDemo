@@ -8,6 +8,7 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vc4u2c/GitHubActionsDemo)](https://github.com/vc4u2c/GitHubActionsDemo/graphs/commit-activity)
 [![GitHub Repo stars](https://img.shields.io/github/stars/vc4u2c/GitHubActionsDemo)](https://github.com/vc4u2c/GitHubActionsDemo/stargazers)
 [![open issues](https://img.shields.io/github/issues/vc4u2c/GitHubActionsDemo)](https://github.com/vc4u2c/GitHubActionsDemo/issues)
+![](https://img.shields.io/github/license/vc4u2c/GitHubActionsDemo)
 
 - .NET 7 Minimal Web API with Tests & Code Coverage using GitHub Actions
 - [How To Deploy Your Application To Azure Using GitHub Actions | CI/CD Pipeline](https://www.youtube.com/watch?v=QP0pi7xe24s)
@@ -70,9 +71,37 @@ az login
 
 # Change active subscription
 az account set --subscription "sub-vc4u2c-demo"
+az account subscription list
 
 # Create Resource Group
 az group create --name rg-githubactionsdemo-dev-eastus --location eastus
+
+az ad sp create-for-rbac --name spgithubactionsdemo --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/rg-githubactionsdemo-dev-eastus
+
+# Download Github CLI and install
+https://cli.github.com/
+
+# Login to GitHub. Type command below and enter details interatively
+gh auth login -p https -h GitHub.com -w
+gh auth status
+
+# Set secrets
+gh secret set AZURE_SUBSCRIPTION -b {subscription-id} -R vc4u2c/GitHubActionsDemo
+gh secret set APPLICATION_NAME -b githubactionsdemo -R vc4u2c/GitHubActionsDemo
+gh secret set AZURE_CREDENTIALS -b   '{"clientId": "xxx",
+  "clientSecret": "{}",
+  "subscriptionId": "{}",
+  "tenantId": "{}",
+  "activeDirectoryEndpointUrl": "{}",
+  "resourceManagerEndpointUrl": "{}",
+  "activeDirectoryGraphResourceId": "{}",
+  "sqlManagementEndpointUrl": "{}",
+  "galleryEndpointUrl": "{}",
+  "managementEndpointUrl": "{}"
+}' -R vc4u2c/GitHubActionsDemo
+
+# List the secrets created
+gh secret list
 
 # Final Run
 az deployment group create -g rg-azurecacheforredisdemo-dev-eastus -f deploy.bicep
@@ -92,3 +121,5 @@ Delete resource group rg-githubactionsdemo-dev-eastus
 - [Code Coverage in GitHub with .NET Core](https://samlearnsazure.blog/2021/01/05/code-coverage-in-github-with-net-core/)
 - [Disable a direct push to GitHub main branch](https://dev.to/pixiebrix/disable-a-direct-push-to-github-main-branch-8c2#:~:text=To%20create%20a%20branch%20protection,a%20pull%20request%20before%20merging)
 - [Managing the automatic deletion of branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-the-automatic-deletion-of-branches)
+- [Quickstart: Deploy Bicep files by using GitHub Actions](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI)
+- [GitHub CLI](https://cli.github.com/)

@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+env:
+  ENVIRONMENT: dev
+  LOCATION: eastus
 
 jobs:
   publish:
@@ -31,10 +34,35 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.info
-          
+
       - name: Upload Test Results
         uses: actions/upload-artifact@v3
         with:
           name: TestResults
           path: TestResults
         if: always()
+
+      - name: Check for Bicep Changes
+        uses: dorny/paths-filter@v2
+        id: bicep-changes
+        with:
+          filters: |
+            src:
+             - './bicep/**'
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        if: ${{ steps.bicep-changes.outputs.src == 'true' }}
+
+      - name: Deploy Azure Infrastructure
+        uses: azure/arm-deploy@v1
+        with:
+          resourceGroupName: "rg-${{ secrets.APPLICATION_NAME }}-${{ env.LOCATION }}"
+          template: ./bicep/deploy.bicep
+          parameters: "pApplicationName=${{ secrets.APPLICATION_NAME }} pEnv=${{ env.ENVIRONMENT }}"
+          failOnStdErr: false
+          scope: "resourceGroup"
+
+        if: ${{ steps.bicep-changes.outputs.src == 'true' }}
