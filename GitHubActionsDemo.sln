@@ -24,6 +24,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bicep", "bicep", "{1C5015C6
 		bicep\deploy.bicep = bicep\deploy.bicep
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{7B47C76C-3D34-45B2-98AB-EC4701EF78DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{736C0095-A4C0-45F6-A09D-1ED0FFE714AD}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\main.yml = .github\workflows\main.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +52,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{47A0DDD9-7FB3-4398-B521-9447CDC4684F} = {9E13F85E-5CC4-4F3A-99A6-7B50DA6D9EC5}
 		{74274F48-11B1-4CAB-A910-6B76BCD4500C} = {99A3118D-1E35-4BE8-8DA3-BE005A00E08C}
+		{736C0095-A4C0-45F6-A09D-1ED0FFE714AD} = {7B47C76C-3D34-45B2-98AB-EC4701EF78DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7639303C-62F1-44C0-8CF8-6DF2D3DF325F}
