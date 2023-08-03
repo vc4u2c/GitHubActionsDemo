@@ -36,6 +36,12 @@ jobs:
       - name: Generate Coverage Report
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
+      - name: Publish Coverage Report to coveralls.io
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.COVERALLS_TOKEN }}
+          path-to-lcov: ./MyLibrary.Tests/TestResults/coverage.info 
+
       - name: Publish
         run: dotnet publish ./GitHubActionsDemo.sln --configuration release --no-build
 
