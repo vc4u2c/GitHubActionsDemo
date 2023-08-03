@@ -63,6 +63,6 @@ jobs:
           template: ./bicep/deploy.bicep
           parameters: "pApplicationName=${{ secrets.APPLICATION_NAME }} pEnv=${{ env.ENVIRONMENT }}"
           failOnStdErr: false
-          scope: "resourceGroup"
+          scope: "resourcegroup"
 
         if: ${{ steps.bicep-changes.outputs.src == 'true' }}
