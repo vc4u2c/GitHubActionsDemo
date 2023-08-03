@@ -37,11 +37,11 @@ jobs:
       #     path-to-lcov: ./tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.info
 
       # - name: Upload Test Results
-        uses: actions/upload-artifact@v3
-        with:
-          name: TestResults
-          path: TestResults
-        if: always()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: TestResults
+      #     path: TestResults
+      #   if: always()
 
       - name: Publish
         run: dotnet publish ./src/GitHubActionsDemo.WebApi/GitHubActionsDemo.WebApi.csproj -c Release --no-build --output '${{ env.PACKAGE_PATH }}'
@@ -76,7 +76,7 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            value=$(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
+            value = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
             echo $value
 
       - name: Deploy
