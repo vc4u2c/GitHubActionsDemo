@@ -18,6 +18,7 @@ dotnet new xunit -n GitHubActionsDemo.WebApi.Tests
 cd..
 dotnet add tests/GitHubActionsDemo.WebApi.Tests reference src/GitHubActionsDemo.WebApi
 dotnet add tests/GitHubActionsDemo.WebApi.Tests package Microsoft.NET.Test.Sdk
+dotnet add tests/GitHubActionsDemo.WebApi.Tests package coverlet.msbuild
 dotnet sln GitHubActionsDemo.sln add src\GitHubActionsDemo.WebApi\GitHubActionsDemo.WebApi.csproj
 dotnet sln GitHubActionsDemo.sln add tests\GitHubActionsDemo.WebApi.Tests\GitHubActionsDemo.WebApi.Tests.csproj
 ```
