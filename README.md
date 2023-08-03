@@ -21,6 +21,13 @@ dotnet add tests/GitHubActionsDemo.WebApi.Tests package Microsoft.NET.Test.Sdk
 dotnet add tests/GitHubActionsDemo.WebApi.Tests package coverlet.msbuild
 dotnet sln GitHubActionsDemo.sln add src\GitHubActionsDemo.WebApi\GitHubActionsDemo.WebApi.csproj
 dotnet sln GitHubActionsDemo.sln add tests\GitHubActionsDemo.WebApi.Tests\GitHubActionsDemo.WebApi.Tests.csproj
+
+git init -b main
+# And commit and push to remote
+# Ensure Remote GitHub Repo is public
+# Sign up with https://coveralls.io/ using GitHub creds
+# Click on Add Repos and click Sync Repos
+# Turn on the start uploading coverage option
 ```
 
 ### Run locally

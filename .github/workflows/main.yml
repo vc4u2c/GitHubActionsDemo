@@ -24,11 +24,14 @@ jobs:
         run: dotnet build ./GitHubActionsDemo.sln --configuration release --no-restore
 
       - name: Test
-        run: dotnet test --no-build -c release --logger trx --results-directory "TestResults" --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+        run: dotnet test --no-build -c release --logger trx --results-directory "TestResults" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
       - name: Publish coverage report to coveralls.io
         uses: coverallsapp/github-action@v2
-
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.info
+          
       - name: Upload Test Results
         uses: actions/upload-artifact@v3
         with:
