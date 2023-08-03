@@ -19,29 +19,13 @@ cd..
 dotnet add tests/GitHubActionsDemo.WebApi.Tests reference src/GitHubActionsDemo.WebApi
 dotnet sln GitHubActionsDemo.sln add src\GitHubActionsDemo.WebApi\GitHubActionsDemo.WebApi.csproj
 dotnet sln GitHubActionsDemo.sln add tests\GitHubActionsDemo.WebApi.Tests\GitHubActionsDemo.WebApi.Tests.csproj
+```
 
+### Run locally
+
+```
 # Run on VS Studio GitHubActionsDemo.WebApi to and use tests.http to test that project
 # To test the GitHubActionsDemo.WebApi.Tests project. Use dotnet run or use the VS Test Explorer
-```
-
-### Create Infra in Az
-
-```
-# Login
-az login
-
-# Change active subscription
-az account set --subscription "sub-vc4u2c-demo"
-
-# Create Resource Group
-az group create --name rg-azurecacheforredisdemo-dev-eastus --location eastus
-
-# Build and Run locally and Deploy to Azure from VS: AzureCacheForRedisDemo.WebApi
-
-# Final Run
-az deployment group create -g rg-azurecacheforredisdemo-dev-eastus -f deploy.bicep
-# Hit Post endpoint in tests.http and see logs in Log Stream of Function App and API App Service
-# Connect to Az instance using stunnel and publish a message and see in app service logs that it has been subscribed to
 
 # Code Coverage
 dotnet test --collect:"XPlat Code Coverage"
@@ -56,9 +40,30 @@ reportgenerator `
 -reporttypes:Html
 ```
 
+### Create Infra in Az
+
+```
+# Check if we are logged in
+az account show
+
+# Login
+az login
+
+# Change active subscription
+az account set --subscription "sub-vc4u2c-demo"
+
+# Create Resource Group
+az group create --name rg-githubactionsdemo-dev-eastus --location eastus
+
+# Final Run
+az deployment group create -g rg-azurecacheforredisdemo-dev-eastus -f deploy.bicep
+# Hit Post endpoint in tests.http and see logs in Log Stream of Function App and API App Service
+# Connect to Az instance using stunnel and publish a message and see in app service logs that it has been subscribed to
+```
+
 ### Teardown
 
-Delete resource group rg-azservicebusqueuedemo-dev-eastus
+Delete resource group rg-githubactionsdemo-dev-eastus
 
 ## Notes
 
