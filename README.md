@@ -42,6 +42,18 @@ az group create --name rg-azurecacheforredisdemo-dev-eastus --location eastus
 az deployment group create -g rg-azurecacheforredisdemo-dev-eastus -f deploy.bicep
 # Hit Post endpoint in tests.http and see logs in Log Stream of Function App and API App Service
 # Connect to Az instance using stunnel and publish a message and see in app service logs that it has been subscribed to
+
+# Code Coverage
+dotnet test --collect:"XPlat Code Coverage"
+
+# Install report generator tool once
+dotnet tool install -g dotnet-reportgenerator-globaltool
+
+# Generate report
+reportgenerator `
+-reports:".\tests\GitHubActionsDemo.WebApi.Tests\TestResults\2c39de27-c157-40d7-8b5a-9223fb48c8c6\coverage.cobertura.xml" `
+-targetdir:".\tests\GitHubActionsDemo.WebApi.Tests\TestResults\2c39de27-c157-40d7-8b5a-9223fb48c8c6\coveragereport" `
+-reporttypes:Html
 ```
 
 ### Teardown
@@ -51,3 +63,6 @@ Delete resource group rg-azservicebusqueuedemo-dev-eastus
 ## Notes
 
 - [How to test ASP.NET Core Minimal APIs](https://www.twilio.com/blog/test-aspnetcore-minimal-apis)
+- [Quickstart: Deploy Bicep files by using GitHub Actions](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI)
+- [Use code coverage for unit testing](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
+- [Code Coverage in GitHub with .NET Core](https://samlearnsazure.blog/2021/01/05/code-coverage-in-github-with-net-core/)
