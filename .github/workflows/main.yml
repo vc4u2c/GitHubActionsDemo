@@ -58,7 +58,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-        if: ${{ steps.bicep-changes.outputs.src == 'true' }}
 
       - name: Deploy Azure Infrastructure
         id: deploy-azure-infrastructure
