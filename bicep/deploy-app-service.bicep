@@ -1,7 +1,6 @@
 param pLocation string
 param pApplicationName string
 param pEnv string
-param pRedisCacheName string
 
 // App Service Plan
 param pAppServicePlan string = 'pl-${pApplicationName}-${pEnv}-${pLocation}'
@@ -41,10 +40,6 @@ resource appServiceAppSetting 'Microsoft.Web/sites/config@2022-09-01' = {
   properties: {
     appSettings: [
       {
-        name: 'RedisConnection'
-        value: '${pRedisCacheName}.redis.cache.windows.net,abortConnect=false,ssl=true,password=${redisCache.listKeys().primaryKey}'
-      }
-      {
         name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
         value: appInsights.properties.InstrumentationKey
       }
@@ -61,8 +56,4 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   properties: {
     Application_Type: 'web'
   }
-}
-
-resource redisCache 'Microsoft.Cache/Redis@2020-06-01' existing = {
-  name: pRedisCacheName
 }
