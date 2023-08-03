@@ -26,6 +26,19 @@ jobs:
       - name: Test
         run: dotnet test --no-build -c release --logger trx --results-directory "TestResults"
 
+      - name: Check for 'lcov.info' existence
+        id: check_files
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "TestResults/reports/lcov.info"
+  
+      - name: coveralls
+        uses: coverallsapp/github-action@v2
+        if: steps.check_files.outputs.files_exists == 'true'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: TestResults/reports/lcov.info        
+
       - name: Upload Test Results
         uses: actions/upload-artifact@v3
         with:
@@ -33,16 +46,18 @@ jobs:
           path: TestResults
         if: always()
 
-      - name: Generate Coverage Report
-        run: |
-          cd ./tests/GitHubActionsDemo.WebApi.Tests/
-          dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+     
 
-      - name: Publish Coverage Report to coveralls.io
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.COVERALLS_TOKEN }}
-          path-to-lcov: ${{ github.workspace }}/tests/GitHubActionsDemo.WebApi.Tests/TestResults/
+    #   - name: Generate Coverage Report
+    #     run: |
+    #       cd ./tests/GitHubActionsDemo.WebApi.Tests/
+    #       dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+
+    #   - name: Publish Coverage Report to coveralls.io
+    #     uses: coverallsapp/github-action@master
+    #     with:
+    #       github-token: ${{ secrets.COVERALLS_TOKEN }}
+    #       path-to-lcov: ${{ github.workspace }}/tests/GitHubActionsDemo.WebApi.Tests/TestResults/
 
       - name: Publish
         run: dotnet publish ./GitHubActionsDemo.sln --configuration release --no-build
