@@ -1,3 +1,4 @@
+#define USE_SWAGGER_ALWAYS
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,11 +11,16 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+#if USE_SWAGGER_ALWAYS
+app.UseSwagger();
+app.UseSwaggerUI();
+#else
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+#endif
 
 app.UseHttpsRedirection();
 
