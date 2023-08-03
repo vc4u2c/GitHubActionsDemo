@@ -75,7 +75,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            $value = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml -o tsv)
+            value = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml -o tsv)
             echo $value
 
       - name: Deploy
