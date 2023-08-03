@@ -11,6 +11,9 @@
 ![](https://img.shields.io/github/license/vc4u2c/GitHubActionsDemo)
 
 - .NET 7 Minimal Web API with Tests & Code Coverage using GitHub Actions
+- Infrastructure automation using Bicep
+- Unit Tests in Pipeline
+- Code Coverage and Code Converage reporting
 - [How To Deploy Your Application To Azure Using GitHub Actions | CI/CD Pipeline](https://www.youtube.com/watch?v=QP0pi7xe24s)
 
 ### Installation
