@@ -76,11 +76,12 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            publishProfile = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
+            h = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
+            echo "::set-output name=h::$h"
 
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.APP_SERVICE_NAME }}
-          publish-profile: steps.get-publish-profile.outputs.publishProfile
+          publish-profile: steps.get-publish-profile.outputs.h
           package: ${{ env.PACKAGE_PATH }}
