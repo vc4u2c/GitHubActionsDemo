@@ -34,9 +34,7 @@ jobs:
         if: always()
 
       - name: Generate Coverage Report
-        run: |
-          cd ./tests/
-          dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
       - name: Publish
         run: dotnet publish ./GitHubActionsDemo.sln --configuration release --no-build
