@@ -35,14 +35,14 @@ jobs:
 
       - name: Generate Coverage Report
         run: |
-          cd ./tests/GitHubActionsDemo.WebApi.Tests
+          cd ./tests/GitHubActionsDemo.WebApi.Tests/
           dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
       - name: Publish Coverage Report to coveralls.io
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.COVERALLS_TOKEN }}
-          path-to-lcov: ./tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.info
+          path-to-lcov: ${{ github.workspace }}/tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.info
 
       - name: Publish
         run: dotnet publish ./GitHubActionsDemo.sln --configuration release --no-build
