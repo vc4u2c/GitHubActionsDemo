@@ -49,4 +49,5 @@ az deployment group create -g rg-azurecacheforredisdemo-dev-eastus -f deploy.bic
 Delete resource group rg-azservicebusqueuedemo-dev-eastus
 
 ## Notes
+
 - [How to test ASP.NET Core Minimal APIs](https://www.twilio.com/blog/test-aspnetcore-minimal-apis)
