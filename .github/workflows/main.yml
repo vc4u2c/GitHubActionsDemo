@@ -16,15 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "7.0.x"
+      # - name: Setup .NET
+      #   uses: actions/setup-dotnet@v3
+      #   with:
+      #     dotnet-version: "7.0.x"
 
-      - name: Restore
-        run: dotnet restore ./GitHubActionsDemo.sln
+      # - name: Restore
+      #   run: dotnet restore ./GitHubActionsDemo.sln
 
-      - name: Build
+      # - name: Build
         run: dotnet build ./GitHubActionsDemo.sln --configuration release --no-restore
 
       # - name: Test
@@ -43,8 +43,8 @@ jobs:
       #     path: TestResults
       #   if: always()
 
-      - name: Publish
-        run: dotnet publish ./src/GitHubActionsDemo.WebApi/GitHubActionsDemo.WebApi.csproj -c Release --no-build --output '${{ env.PACKAGE_PATH }}'
+      # - name: Publish
+      #   run: dotnet publish ./src/GitHubActionsDemo.WebApi/GitHubActionsDemo.WebApi.csproj -c Release --no-build --output '${{ env.PACKAGE_PATH }}'
 
       - name: Check for Bicep Changes
         uses: dorny/paths-filter@v2
@@ -76,7 +76,7 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            value = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
+            $value = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
             echo $value
 
       - name: Deploy
