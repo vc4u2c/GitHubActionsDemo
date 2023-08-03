@@ -76,7 +76,6 @@ jobs:
         with:
           inlineScript: |
             echo APP_SERVICE_PUBLISH_PROFILE = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)  >> $GITHUB_ENV
-            $(gh secret set APP_SERVICE_PUBLISH_PROFILE2 -b ${{ steps.get-publish-profile.outputs.APP_SERVICE_PUBLIC_PROFILE }} -R vc4u2c/GitHubActionsDemo)
 
       - name: Deploy
         uses: azure/webapps-deploy@v2
