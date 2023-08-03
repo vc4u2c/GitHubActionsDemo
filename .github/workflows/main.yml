@@ -24,5 +24,8 @@ jobs:
       - name: Build
         run: dotnet build ./GitHubActionsDemo.sln --configuration release --no-restore
 
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+
       - name: Publish
         run: dotnet publish ./GitHubActionsDemo.sln --configuration release --no-build
