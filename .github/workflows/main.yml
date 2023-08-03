@@ -8,7 +8,6 @@ env:
   APP_SERVICE_NAME: "app-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}"
   RESOURCE_GROUP_NAME: "rg-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}-${{ vars.LOCATION }}"
   PACKAGE_PATH: "./publish"
-  APP_SERVICE_PUBLISH_PROFILE: ""
 
 jobs:
   publish:
@@ -76,11 +75,13 @@ jobs:
         uses: azure/CLI@v1.0.7
         with:
           inlineScript: |
-            echo APP_SERVICE_PUBLISH_PROFILE = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)  >> $GITHUB_ENV
+            APP_SERVICE_PUBLISH_PROFILE = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
+            echo "Output [$APP_SERVICE_PUBLISH_PROFILE]"
+            echo "APP_SERVICE_PUBLISH_PROFILE=$APP_SERVICE_PUBLISH_PROFILE" >> $GITHUB_OUTPUT 
 
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.APP_SERVICE_NAME }}
-          publish-profile: ${{ env.APP_SERVICE_PUBLIC_PROFILE }}
+          publish-profile: ${{ steps.get-publish-profile.APP_SERVICE_PUBLIC_PROFILE }}
           package: ${{ env.PACKAGE_PATH }}
