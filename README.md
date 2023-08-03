@@ -16,8 +16,12 @@ cd..
 cd tests
 dotnet new xunit -n GitHubActionsDemo.WebApi.Tests
 cd..
+dotnet add tests/GitHubActionsDemo.WebApi.Tests reference src/GitHubActionsDemo.WebApi
 dotnet sln GitHubActionsDemo.sln add src\GitHubActionsDemo.WebApi\GitHubActionsDemo.WebApi.csproj
 dotnet sln GitHubActionsDemo.sln add tests\GitHubActionsDemo.WebApi.Tests\GitHubActionsDemo.WebApi.Tests.csproj
+
+# Run on VS Studio GitHubActionsDemo.WebApi to and use tests.http to test that project
+# To test the GitHubActionsDemo.WebApi.Tests project. Use dotnet run or use the VS Test Explorer
 ```
 
 ### Create Infra in Az
@@ -45,3 +49,4 @@ az deployment group create -g rg-azurecacheforredisdemo-dev-eastus -f deploy.bic
 Delete resource group rg-azservicebusqueuedemo-dev-eastus
 
 ## Notes
+- [How to test ASP.NET Core Minimal APIs](https://www.twilio.com/blog/test-aspnetcore-minimal-apis)
