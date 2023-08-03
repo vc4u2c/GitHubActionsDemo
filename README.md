@@ -1,4 +1,4 @@
-# Azure Cache for Redis Demo Web API
+# GitHub Actions CI/CD Demo
 
 [How To Deploy Your Application To Azure Using GitHub Actions | CI/CD Pipeline](https://www.youtube.com/watch?v=QP0pi7xe24s)
 
