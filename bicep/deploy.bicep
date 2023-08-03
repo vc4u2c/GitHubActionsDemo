@@ -11,3 +11,5 @@ module appServiceModule 'deploy-app-service.bicep' = {
     pApplicationName: pApplicationName
   }
 }
+
+output oAppServiceName string = appServiceModule.outputs.oAppServiceName

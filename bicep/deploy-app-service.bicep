@@ -3,9 +3,9 @@ param pApplicationName string
 param pEnv string
 
 // App Service Plan
-param pAppServicePlan string = 'pl-${pApplicationName}-${pEnv}-${pLocation}'
+param pAppServicePlanName string = 'pl-${pApplicationName}-${pEnv}-${pLocation}'
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-09-01' = {
-  name: pAppServicePlan
+  name: pAppServicePlanName
   kind: 'linux'
   properties: {
     reserved: true
@@ -18,15 +18,15 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-09-01' = {
 }
 
 // App Service
-param pAppService string = 'app-${pApplicationName}-${pEnv}'
+param pAppServiceName string = 'app-${pApplicationName}-${pEnv}'
 resource appService 'Microsoft.Web/sites@2022-09-01' = {
-  name: pAppService
+  name: pAppServiceName
   location: pLocation
   identity: {
     type: 'SystemAssigned'
   }
   properties: {
-    serverFarmId: resourceId('Microsoft.Web/serverfarms', pAppServicePlan)
+    serverFarmId: resourceId('Microsoft.Web/serverfarms', pAppServicePlanName)
   }
   dependsOn: [
     appServicePlan
@@ -57,3 +57,5 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
     Application_Type: 'web'
   }
 }
+
+output oAppServiceName string = pAppServiceName
