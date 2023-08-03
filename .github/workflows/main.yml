@@ -25,7 +25,7 @@ jobs:
       #   run: dotnet restore ./GitHubActionsDemo.sln
 
       # - name: Build
-        run: dotnet build ./GitHubActionsDemo.sln --configuration release --no-restore
+      #  run: dotnet build ./GitHubActionsDemo.sln --configuration release --no-restore
 
       # - name: Test
       #   run: dotnet test --no-build -c release --logger trx --results-directory "TestResults" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
