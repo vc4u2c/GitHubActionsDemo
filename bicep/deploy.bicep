@@ -1,4 +1,4 @@
-@description('Location of all resources')
+@description('Location of all the resources')
 param pLocation string = resourceGroup().location
 param pApplicationName string
 param pEnv string
