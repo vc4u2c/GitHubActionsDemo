@@ -1,20 +1,30 @@
 param pLocation string
 param pApplicationName string
 param pEnv string
+param pAppServicePlanOS string
 
 // App Service Plan
 param pAppServicePlanName string = 'pl-${pApplicationName}-${pEnv}-${pLocation}'
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-09-01' = {
   name: pAppServicePlanName
-  kind: 'linux'
+  kind: pAppServicePlanOS
   properties: {
-    reserved: true
+    reserved: ((pAppServicePlanOS == 'linux') ? true : false)
   }
   location: pLocation
   sku: {
     name: 'S1'
     capacity: 1
   }
+}
+
+var configReferenceLinux = {
+  linuxFxVersion: 'DOTNETCORE|7.0'
+}
+
+var configReferenceWindows = {
+  windowsFxVersion: 'dotnet:7'
+  netFrameworkVersion: 'v7.0'
 }
 
 // App Service
@@ -26,11 +36,9 @@ resource appService 'Microsoft.Web/sites@2022-09-01' = {
     type: 'SystemAssigned'
   }
   properties: {
-    serverFarmId: resourceId('Microsoft.Web/serverfarms', pAppServicePlanName)
+    serverFarmId: appServicePlan.id
+    siteConfig: ((pAppServicePlanOS == 'linux') ? configReferenceLinux : configReferenceWindows)
   }
-  dependsOn: [
-    appServicePlan
-  ]
 }
 
 // Application Settings for App Service
@@ -55,6 +63,18 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   kind: 'web'
   properties: {
     Application_Type: 'web'
+  }
+}
+
+// Staging Deployment Slot
+param pDeploymentSlotName string = 'staging'
+resource stagingSlot 'Microsoft.Web/sites/slots@2021-02-01' = if (pEnv == 'prd') {
+  name: pDeploymentSlotName
+  parent: appService
+  location: pLocation
+  kind: 'app'
+  properties: {
+    serverFarmId: appServicePlan.id
   }
 }
 
