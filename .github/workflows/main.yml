@@ -30,7 +30,7 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.info
+          path-to-lcov: ./tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.json
           
       - name: Upload Test Results
         uses: actions/upload-artifact@v3
