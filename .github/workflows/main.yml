@@ -24,7 +24,7 @@ jobs:
         run: dotnet build ./GitHubActionsDemo.sln --configuration release --no-restore
 
       - name: Test
-        run: dotnet test --no-build -c release --logger trx --results-directory "TestResults"
+        run: dotnet test --no-build -c release --logger trx --results-directory "TestResults" --collect:"XPlat Code Coverage"
 
       - name: Publish coverage report to coveralls.io
         uses: coverallsapp/github-action@v2
