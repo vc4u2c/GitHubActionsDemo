@@ -18,7 +18,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/sum", ([FromRoute] int number1, [FromRoute] int number2, ILogger<Program> logger) =>
+app.MapGet("/sum", ([FromQuery] int number1, [FromQuery] int number2, ILogger<Program> logger) =>
 {
     logger.LogInformation("Reached /sum endpoint.");
 
@@ -36,3 +36,5 @@ app.MapGet("/sum", ([FromRoute] int number1, [FromRoute] int number2, ILogger<Pr
 .WithOpenApi();
 
 app.Run();
+
+public partial class Program { }
