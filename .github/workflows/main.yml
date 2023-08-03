@@ -5,8 +5,10 @@ on:
     branches:
       - main
 env:
-  ENVIRONMENT: dev
-  LOCATION: eastus
+  APP_SERVICE_NAME: "app-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}"
+  RESOURCE_GROUP_NAME: "rg-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}-${{ vars.LOCATION }}"
+  PACKAGE_PATH: "./publish"
+  PUBLISH_PROFILE: ""
 
 jobs:
   publish:
@@ -42,6 +44,9 @@ jobs:
           path: TestResults
         if: always()
 
+      - name: Publish
+        run: dotnet publish ./GitHubActionsDemo.sln -c Release --no-build --output '${{ env.PACKAGE_PATH }}'
+
       - name: Check for Bicep Changes
         uses: dorny/paths-filter@v2
         id: bicep-changes
@@ -57,12 +62,26 @@ jobs:
         if: ${{ steps.bicep-changes.outputs.src == 'true' }}
 
       - name: Deploy Azure Infrastructure
+        id: deploy-azure-infrastructure
         uses: azure/arm-deploy@v1
         with:
-          resourceGroupName: "rg-${{ secrets.APPLICATION_NAME }}-${{ env.ENVIRONMENT }}-${{ env.LOCATION }}"
+          resourceGroupName: "${{ env.RESOURCE_GROUP_NAME }}"
           template: ./bicep/deploy.bicep
-          parameters: "pApplicationName=${{ secrets.APPLICATION_NAME }} pEnv=${{ env.ENVIRONMENT }}"
+          parameters: "pApplicationName=${{ vars.APPLICATION_NAME }} pEnv=${{ vars.ENVIRONMENT }}"
           failOnStdErr: false
           scope: "resourcegroup"
-
         if: ${{ steps.bicep-changes.outputs.src == 'true' }}
+
+      - name: Get App Service Publish Profile
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml -o '${{ env.PUBLISH_PROFILE }}'
+
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.APP_SERVICE_NAME }}
+          publish-profile: ${{ env.PUBLISH_PROFILE }}
+          package: ${{ env.PACKAGE_PATH }}

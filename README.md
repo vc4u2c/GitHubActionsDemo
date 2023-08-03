@@ -87,8 +87,10 @@ gh auth status
 
 # Set secrets
 gh secret set AZURE_SUBSCRIPTION -b {subscription-id} -R vc4u2c/GitHubActionsDemo
-gh secret set APPLICATION_NAME -b githubactionsdemo -R vc4u2c/GitHubActionsDemo
-gh secret set AZURE_CREDENTIALS -b   '{"clientId": "xxx",
+# If this does not work
+gh secret set AZURE_CREDENTIALS -b @'
+{
+  "clientId": "xxx",
   "clientSecret": "{}",
   "subscriptionId": "{}",
   "tenantId": "{}",
@@ -98,10 +100,17 @@ gh secret set AZURE_CREDENTIALS -b   '{"clientId": "xxx",
   "sqlManagementEndpointUrl": "{}",
   "galleryEndpointUrl": "{}",
   "managementEndpointUrl": "{}"
-}' -R vc4u2c/GitHubActionsDemo
+} -R vc4u2c/GitHubActionsDemo
+'@
 
 # List the secrets created
 gh secret list
+
+# Set Vars
+gh variable set SUBSCRIPTION_NAME -b "sub-vc4u2c-demo" -R vc4u2c/GitHubActionsDemo
+gh variable set APPLICATION_NAME -b "githubactionsdemo" -R vc4u2c/GitHubActionsDemo
+gh variable set LOCATION -b "eastus" -R vc4u2c/GitHubActionsDemo
+gh variable set ENVIRONMENT -b "dev" -R vc4u2c/GitHubActionsDemo
 
 # Final Run
 az deployment group create -g rg-azurecacheforredisdemo-dev-eastus -f deploy.bicep
