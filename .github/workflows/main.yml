@@ -74,9 +74,8 @@ jobs:
         id: get-publish-profile
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.30.0
           inlineScript: |
-            $value = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)
+            $value = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml -o tsv)
             echo $value
 
       - name: Deploy
