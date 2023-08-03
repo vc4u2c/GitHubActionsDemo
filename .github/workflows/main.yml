@@ -24,13 +24,14 @@ jobs:
         run: dotnet build ./GitHubActionsDemo.sln --configuration release --no-restore
 
       - name: Test
-        run: dotnet test --no-restore --verbosity normal --results-directory "TestResults"
+        run: dotnet test --no-restore --logger trx --results-directory "TestResults"
 
       - name: Upload Test Results
         uses: actions/upload-artifact@v3
         with:
           name: TestResults
           path: TestResults
+          if: always()
 
       - name: Publish
         run: dotnet publish ./GitHubActionsDemo.sln --configuration release --no-build
