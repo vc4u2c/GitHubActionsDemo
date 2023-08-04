@@ -1,0 +1,61 @@
+name: ci-workflow
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+env:
+  PACKAGE_PATH: "./publish"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout Code from Git Repo
+        with:
+         fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: super-linter/super-linter@v5
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.0.x"
+
+      - name: Restore
+        run: dotnet restore ./GitHubActionsDemo.sln
+
+      - name: Build
+        run: dotnet build ./GitHubActionsDemo.sln --configuration release --no-restore
+
+      - name: Test
+        run: dotnet test --no-build -c release --logger trx --results-directory "TestResults" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+
+      - name: Publish coverage report to coveralls.io
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./tests/GitHubActionsDemo.WebApi.Tests/TestResults/coverage.info
+
+      - name: Publish Test Results Artifact to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: TestResults
+        if: always()
+
+      - name: Publish
+        run: dotnet publish ./src/GitHubActionsDemo.WebApi/GitHubActionsDemo.WebApi.csproj -c Release --no-build --output '${{ env.PACKAGE_PATH }}'
+
+      - name: Publish Artifact to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ vars.APPLICATION_NAME }}-release
+          path: ${{ env.PACKAGE_PATH }}

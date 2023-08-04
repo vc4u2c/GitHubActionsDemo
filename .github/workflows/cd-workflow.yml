@@ -1,0 +1,59 @@
+name: cd-workflow
+on:
+  workflow_run:
+    workflows: ["ci-workflow"]
+    types: [requested]
+    branches:
+      - 'main'
+
+env:
+  APP_SERVICE_NAME: "app-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}"
+  RESOURCE_GROUP_NAME: "rg-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}-${{ vars.LOCATION }}"
+  PACKAGE_PATH: "./publish"      
+
+jobs:
+  cd:
+   runs-on: ubuntu-latest
+   steps:
+
+      - name: Check for Bicep Changes
+        id: bicep-changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            src:
+              - './bicep/**'
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Azure Infrastructure
+        id: deploy-azure-infrastructure
+        uses: azure/arm-deploy@v1
+        with:
+          resourceGroupName: "${{ env.RESOURCE_GROUP_NAME }}"
+          template: ./bicep/deploy.bicep
+          parameters: "pApplicationName=${{ vars.APPLICATION_NAME }} pEnv=${{ vars.ENVIRONMENT }}"
+          failOnStdErr: false
+          scope: "resourcegroup"
+        if: ${{ steps.bicep-changes.outputs.src == 'true' }}
+
+      - name: Get App Service Publish Profile
+        id: get-publish-profile
+        uses: azure/CLI@v1.0.7
+        with:
+          inlineScript: |
+            echo APP_SERVICE_PUBLISH_PROFILE = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)  >> $GITHUB_ENV
+            
+        # TODO: Currently there is no way to avoid Publish Profile secret to display in the log
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+            app-name: ${{ env.APP_SERVICE_NAME }}
+            publish-profile: ${{ steps.get-publish-profile.outputs.APP_SERVICE_PUBLIC_PROFILE }}
+            package: ${{ env.PACKAGE_PATH }}
+            slot-name: 'staging'
+
+      
