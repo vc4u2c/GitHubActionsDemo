@@ -1,4 +1,4 @@
-name: Publish
+name: ci-workflow
 on:
   workflow_dispatch:
   push:
@@ -77,6 +77,7 @@ jobs:
           inlineScript: |
             echo APP_SERVICE_PUBLISH_PROFILE = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)  >> $GITHUB_ENV
 
+      # TODO: Currently there is no way to avoid Publish Profile secret to display in the log
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with:
