@@ -1,3 +1,4 @@
+---
 name: cd-workflow
 on:
   workflow_run:
@@ -45,7 +46,11 @@ jobs:
         uses: azure/CLI@v1.0.7
         with:
           inlineScript: |
-            echo APP_SERVICE_PUBLISH_PROFILE = $(az webapp deployment list-publishing-profiles --name ${{ env.APP_SERVICE_NAME }} --resource-group ${{ env.RESOURCE_GROUP_NAME }} --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)  >> $GITHUB_ENV
+            echo APP_SERVICE_PUBLISH_PROFILE = 
+                $(az webapp deployment list-publishing-profiles 
+                --name ${{ env.APP_SERVICE_NAME }} 
+                --resource-group ${{ env.RESOURCE_GROUP_NAME }} 
+                --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)  >> $GITHUB_ENV
 
       - name: Deploy
         uses: azure/webapps-deploy@v2

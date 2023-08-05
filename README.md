@@ -1,7 +1,8 @@
 # GitHub Actions CI/CD Demo
 
-[![](https://img.shields.io/github/actions/workflow/status/vc4u2c/GitHubActionsDemo/main.yml?branch=main)](https://github.com/vc4u2c/GitHubActionsDemo/actions?query=branch%3Amain)
-![Workflow Passing](https://github.com/vc4u2c/GitHubActionsDemo/actions/workflows/main.yml/badge.svg)
+[![](https://img.shields.io/github/actions/workflow/status/vc4u2c/GitHubActionsDemo/ci-workflow.yml?branch=main)](https://github.com/vc4u2c/GitHubActionsDemo/actions?query=branch%3Amain)
+![CI Workflow Passing](https://github.com/vc4u2c/GitHubActionsDemo/actions/workflows/ci-workflow.yml/badge.svg)
+![CD Workflow Passing](https://github.com/vc4u2c/GitHubActionsDemo/actions/workflows/cd-workflow.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/vc4u2c/GitHubActionsDemo/badge.svg?branch=main)](https://coveralls.io/github/vc4u2c/GitHubActionsDemo?branch=main)
 [![GitHub contributors](https://img.shields.io/github/contributors/vc4u2c/GitHubActionsDemo)](https://github.com/vc4u2c/GitHubActionsDemo/graphs/contributors)
 [![GitHub last commit](https://img.shields.io/github/last-commit/vc4u2c/GitHubActionsDemo)](https://github.com/vc4u2c/GitHubActionsDemo)
