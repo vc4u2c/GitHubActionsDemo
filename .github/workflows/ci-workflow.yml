@@ -57,7 +57,7 @@ jobs:
         run: dotnet publish ./src/GitHubActionsDemo.WebApi/GitHubActionsDemo.WebApi.csproj -c release 
               --no-build --output '${{ env.PACKAGE_PATH }}'
 
-      - name: Publish Artifact to GitHub
+      - name: Upload Artifact to GitHub
         uses: actions/upload-artifact@v3
         with:
           name: ${{ vars.APPLICATION_NAME }}-release

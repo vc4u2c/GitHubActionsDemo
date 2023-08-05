@@ -1,68 +1,72 @@
 ---
-    name: cd-workflow
-    on:
-      workflow_run:
-        workflows:
-        - "ci-workflow"
-        types: [completed]
-        branches:
-        - "main"
-    
-    env:
-      APP_SERVICE_NAME: 
-        "app-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}"
-      RESOURCE_GROUP_NAME: 
-        "rg-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}-${{ vars.LOCATION }}"
-      PACKAGE_PATH: "./publish"
-    
-    jobs:
-      cd:
-        runs-on: ubuntu-latest
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
-        steps:
-          - name: Check for Bicep Changes
-            id: bicep-changes
-            uses: dorny/paths-filter@v2
-            with:
-              filters: |
-                src:
-                  - './bicep/**'
-    
-          - name: Login to Azure
-            uses: azure/login@v1
-            with:
-              creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-          - name: Deploy Azure Infrastructure
-            id: deploy-azure-infrastructure
-            uses: azure/arm-deploy@v1
-            with:
-              resourceGroupName: "${{ env.RESOURCE_GROUP_NAME }}"
-              template: ./bicep/deploy.bicep
-              parameters: 
-                "pApplicationName=${{ vars.APPLICATION_NAME }} pEnv=${{ vars.ENVIRONMENT }}"
-              failOnStdErr: false
-              scope: "resourcegroup"
-            if: ${{ steps.bicep-changes.outputs.src == 'true' }}
-    
-          - name: Get App Service Publish Profile
-            id: get-publish-profile
-            uses: azure/CLI@v1.0.7
-            with:
-              inlineScript: |
-                echo APP_SERVICE_PUBLISH_PROFILE = 
-                    $(az webapp deployment list-publishing-profiles
-                    --name ${{ env.APP_SERVICE_NAME }}
-                    --resource-group ${{ env.RESOURCE_GROUP_NAME }}
-                    --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)  >> $GITHUB_ENV
-    
-          - name: Deploy
-            uses: azure/webapps-deploy@v2
-            with:
-              app-name: ${{ env.APP_SERVICE_NAME }}
-              publish-profile:
-                ${{ steps.get-publish-profile.outputs.APP_SERVICE_PUBLIC_PROFILE }}
-              package: ${{ env.PACKAGE_PATH }}
-              slot-name: "staging"
-              images:
-    
+name: cd-workflow
+on:
+  workflow_run:
+    workflows:
+    - "ci-workflow"
+    types: [completed]
+    branches:
+    - "main"
+
+env:
+  APP_SERVICE_NAME: "app-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}"
+  RESOURCE_GROUP_NAME: 
+    "rg-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}-${{ vars.LOCATION }}"
+  PACKAGE_PATH: "./publish"
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    #   - name: Check for Bicep Changes
+    #     id: bicep-changes
+    #     uses: dorny/paths-filter@v2
+    #     with:
+    #       filters: |
+    #         src:
+    #           - './bicep/**'
+
+    #   - name: Login to Azure
+    #     uses: azure/login@v1
+    #     with:
+    #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    #   - name: Deploy Azure Infrastructure
+    #     id: deploy-azure-infrastructure
+    #     uses: azure/arm-deploy@v1
+    #     with:
+    #       resourceGroupName: "${{ env.RESOURCE_GROUP_NAME }}"
+    #       template: ./bicep/deploy.bicep
+    #       parameters: 
+    #         "pApplicationName=${{ vars.APPLICATION_NAME }} pEnv=${{ vars.ENVIRONMENT }}"
+    #       failOnStdErr: false
+    #       scope: "resourcegroup"
+    #     if: ${{ steps.bicep-changes.outputs.src == 'true' }}
+
+      - name: Download Artifact from GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ vars.APPLICATION_NAME }}-release
+          path: ${{ env.PACKAGE_PATH }}
+
+      - name: Get App Service Publish Profile
+        id: get-publish-profile
+        uses: azure/CLI@v1.0.7
+        with:
+          inlineScript: |
+            echo APP_SERVICE_PUBLISH_PROFILE = 
+                $(az webapp deployment list-publishing-profiles
+                --name ${{ env.APP_SERVICE_NAME }}
+                --resource-group ${{ env.RESOURCE_GROUP_NAME }}
+                --subscription ${{ vars.SUBSCRIPTION_NAME }} --xml)  >> $GITHUB_ENV
+
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.APP_SERVICE_NAME }}
+          publish-profile:
+            ${{ steps.get-publish-profile.outputs.APP_SERVICE_PUBLIC_PROFILE }}
+          package: ${{ env.PACKAGE_PATH }}
+          slot-name: "staging"
+          images:
