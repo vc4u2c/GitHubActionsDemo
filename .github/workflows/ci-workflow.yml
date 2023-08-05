@@ -1,5 +1,5 @@
 ---
-name: ci-workflow
+name: CI Workflow
 on:
   workflow_dispatch:
   push:
@@ -7,23 +7,43 @@ on:
       - main
 env:
   PACKAGE_PATH: "./publish"
+  RESOURCE_GROUP_NAME: 
+    "rg-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}-${{ vars.LOCATION }}"
 
 jobs:
+
   ci:
+    name: CI Job
     runs-on: ubuntu-latest
+    outputs:
+      BICEP_CHANGED: ${{ steps.bicep-changes.outputs.src }}
 
     steps:
+
       - uses: actions/checkout@v3
         name: Checkout Code from Git Repo
         with:
           fetch-depth: 0
 
-      - name: Lint Code Base
+      - name: Lint Codebase
         uses: super-linter/super-linter@v5
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check for Bicep Changes
+        id: bicep-changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            src:
+              - './bicep/**'
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -62,3 +82,16 @@ jobs:
         with:
           name: ${{ vars.APPLICATION_NAME }}-release
           path: ${{ env.PACKAGE_PATH }}
+        
+  iac:
+    name: Call IaC Workflow Job
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Call IaC Workflow
+        uses: ./.github/workflows/iac-workflow.yml
+        with: 
+          RESOURCE_GROUP_NAME: env.RESOURCE_GROUP_NAME
+    if: ${{ needs.ci.outputs.BICEP_CHANGED == 'true' }}

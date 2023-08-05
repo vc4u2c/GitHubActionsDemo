@@ -1,0 +1,33 @@
+---
+name: iac-workflow
+on:
+  workflow_call:
+    inputs:
+      RESOURCE_GROUP_NAME:
+        required: true
+        type: string
+
+jobs: 
+
+ iac:
+   name: IaC Job
+   runs-on: ubuntu-latest
+
+   steps:
+
+     - name: Login to Azure
+       uses: azure/login@v1
+       with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+     - name: Deploy Azure Infrastructure
+       id: deploy-azure-infrastructure
+       uses: azure/arm-deploy@v1
+       with:
+         resourceGroupName: "${{ inputs.RESOURCE_GROUP_NAME }}"
+         template: ./bicep/deploy.bicep
+         parameters: 
+            "pApplicationName=${{ vars.APPLICATION_NAME }} pEnv=${{ vars.ENVIRONMENT }}"
+         failOnStdErr: false 
+         scope: "resourcegroup"
+

@@ -19,36 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-    #   - name: Check for Bicep Changes
-    #     id: bicep-changes
-    #     uses: dorny/paths-filter@v2
-    #     with:
-    #       filters: |
-    #         src:
-    #           - './bicep/**'
-
-    #   - name: Login to Azure
-    #     uses: azure/login@v1
-    #     with:
-    #       creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    #   - name: Deploy Azure Infrastructure
-    #     id: deploy-azure-infrastructure
-    #     uses: azure/arm-deploy@v1
-    #     with:
-    #       resourceGroupName: "${{ env.RESOURCE_GROUP_NAME }}"
-    #       template: ./bicep/deploy.bicep
-    #       parameters: 
-    #         "pApplicationName=${{ vars.APPLICATION_NAME }} pEnv=${{ vars.ENVIRONMENT }}"
-    #       failOnStdErr: false
-    #       scope: "resourcegroup"
-    #     if: ${{ steps.bicep-changes.outputs.src == 'true' }}
 
       - name: Download Artifact from GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: ${{ vars.APPLICATION_NAME }}-release
           path: ${{ env.PACKAGE_PATH }}
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}          
 
       - name: Get App Service Publish Profile
         id: get-publish-profile
