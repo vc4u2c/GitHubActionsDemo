@@ -1,5 +1,5 @@
 ---
-name: iac-workflow
+name: IaC Workflow
 on:
   workflow_call:
     inputs:
