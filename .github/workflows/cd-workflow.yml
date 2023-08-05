@@ -2,27 +2,19 @@
 name: cd-workflow
 on:
   workflow_run:
-    workflows:
-    - "ci-workflow"
-    types: [completed]
-    branches:
-    - "main"
-
+    workflows: [ci-workflow]
+    branches: [main]
 env:
-  APP_SERVICE_NAME: "app-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}"
-  RESOURCE_GROUP_NAME: 
-    "rg-${{ vars.APPLICATION_NAME }}-${{ vars.ENVIRONMENT }}-${{ vars.LOCATION }}"
   PACKAGE_PATH: "./publish"
 
 jobs:
   cd:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     steps:
-      - name: Check for Bicep Changes
-        id: bicep-changes
-        uses: dorny/paths-filter@v2
+
+      - name: Login to Azure
+        uses: azure/login@v1
         with:
-          filters: |
-            src:
-              - './bicep/**'
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
