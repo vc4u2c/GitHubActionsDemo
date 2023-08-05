@@ -34,10 +34,10 @@ jobs:
         run: dotnet restore ./GitHubActionsDemo.sln
 
       - name: Build
-        run: dotnet build ./GitHubActionsDemo.sln -c release --no-restore
+        run: dotnet build ./GitHubActionsDemo.sln -c Release --no-restore
 
       - name: Test
-        run: dotnet test --no-build -c release --logger trx --results-directory "TestResults" 
+        run: dotnet test --no-build -c Release --logger trx --results-directory "TestResults" 
               /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
       - name: Publish coverage report to coveralls.io
@@ -54,7 +54,7 @@ jobs:
         if: always()
 
       - name: Publish
-        run: dotnet publish ./src/GitHubActionsDemo.WebApi/GitHubActionsDemo.WebApi.csproj -c release 
+        run: dotnet publish ./src/GitHubActionsDemo.WebApi/GitHubActionsDemo.WebApi.csproj -c Release 
               --no-build --output '${{ env.PACKAGE_PATH }}'
 
       - name: Upload Artifact to GitHub
