@@ -23,7 +23,7 @@ jobs:
       - name: Download Artifact from GitHub
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: ci-workflow.yml
+          run_id: ${{ github.event.workflow_run.id }}
           name: ${{ vars.APPLICATION_NAME }}-release
           path: ${{ env.PACKAGE_PATH }}
 
