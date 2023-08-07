@@ -15,8 +15,11 @@ jobs:
 
    steps:
      
-     - uses: actions/checkout@v3
-       with: ${{ github.repository }}
+     - name: Checkout Code from Git Repo
+       uses: actions/checkout@v3
+       with:
+         repository: vc4u2c/GitHubActionsDemo
+         path: GitHubActionsDemo
 
      - name: Login to Azure
        uses: azure/login@v1
@@ -33,4 +36,3 @@ jobs:
             "pApplicationName=${{ vars.APPLICATION_NAME }} pEnv=${{ vars.ENVIRONMENT }}"
          failOnStdErr: false 
          scope: "resourcegroup"
-
