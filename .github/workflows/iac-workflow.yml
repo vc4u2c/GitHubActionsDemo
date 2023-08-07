@@ -16,9 +16,7 @@ jobs:
    steps:
      
      - uses: actions/checkout@v3
-       with:
-        repository: vc4u2c/GitHubActionsDemo
-        path: GitHubActionsDemo
+       with: ${{ github.repository }}
 
      - name: Login to Azure
        uses: azure/login@v1
