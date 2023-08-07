@@ -83,9 +83,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      
+      - uses: actions/checkout@v3
+
       - name: Call IaC Workflow
-        uses: ./.github/workflows/iac-workflow.yaml
+        uses: ./.github/workflows/iac-workflow.yml
         with: 
           RESOURCE_GROUP_NAME: ${{ env.RESOURCE_GROUP_NAME }}
-        if: ${{ needs.ci.outputs.BICEP_CHANGED == 'true' }}
