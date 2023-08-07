@@ -85,7 +85,7 @@ jobs:
     steps:
       
       - name: Call IaC Workflow
-        uses: ./.github/workflows/iac-workflow.yml
+        uses: ./.github/workflows/iac-workflow.yml@main
         with: 
-          RESOURCE_GROUP_NAME: env.RESOURCE_GROUP_NAME
+          RESOURCE_GROUP_NAME: ${{ env.RESOURCE_GROUP_NAME }}
         if: ${{ needs.ci.outputs.BICEP_CHANGED == 'true' }}
