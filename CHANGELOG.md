@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="1.0.1"></a>
+## [1.0.1](https://www.github.com/vc4u2c/GitHubActionsDemo/releases/tag/v1.0.1) (2023-8-8)
+
+### Bug Fixes
+
+* **version:** Workflow Versioning ([7a841db](https://www.github.com/vc4u2c/GitHubActionsDemo/commit/7a841dbb292a2ca8099a2febe7545e91a3ebe0da))
+
+### Other
+
+* fixes ([55847ef](https://www.github.com/vc4u2c/GitHubActionsDemo/commit/55847ef4f2c8e17c73afe48b37845ee9ae11eade))
+* xyz ([ba979d4](https://www.github.com/vc4u2c/GitHubActionsDemo/commit/ba979d48d83ff7c5c5a6a0d09b6993121329e196))
+
 <a name="1.0.0"></a>
 ## [1.0.0](https://www.github.com/vc4u2c/GitHubActionsDemo/releases/tag/v1.0.0) (2023-8-8)
 
