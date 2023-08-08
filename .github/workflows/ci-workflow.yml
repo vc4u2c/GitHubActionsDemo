@@ -84,3 +84,4 @@ jobs:
     uses: vc4u2c/GitHubActionsDemo/.github/workflows/iac-workflow.yml@main
     with: 
       RESOURCE_GROUP_NAME: ${{ needs.ci.outputs.RESOURCE_GROUP_NAME }}
+    secrets: inherit
