@@ -1,6 +1,6 @@
 # GitHub Actions CI/CD Demo
 
-[![](https://img.shields.io/github/actions/workflow/status/vc4u2c/GitHubActionsDemo/ci-workflow.yml?branch=main)](https://github.com/vc4u2c/GitHubActionsDemo/actions?query=branch%3Amain)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/vc4u2c/GitHubActionsDemo/ci-workflow.yml?branch=main)](https://github.com/vc4u2c/GitHubActionsDemo/actions?query=branch%3Amain)
 ![CI Workflow Passing](https://github.com/vc4u2c/GitHubActionsDemo/actions/workflows/ci-workflow.yml/badge.svg)
 ![CD Workflow Passing](https://github.com/vc4u2c/GitHubActionsDemo/actions/workflows/cd-workflow.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/vc4u2c/GitHubActionsDemo/badge.svg?branch=main)](https://coveralls.io/github/vc4u2c/GitHubActionsDemo?branch=main)
@@ -9,7 +9,7 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vc4u2c/GitHubActionsDemo)](https://github.com/vc4u2c/GitHubActionsDemo/graphs/commit-activity)
 [![GitHub Repo stars](https://img.shields.io/github/stars/vc4u2c/GitHubActionsDemo)](https://github.com/vc4u2c/GitHubActionsDemo/stargazers)
 [![open issues](https://img.shields.io/github/issues/vc4u2c/GitHubActionsDemo)](https://github.com/vc4u2c/GitHubActionsDemo/issues)
-![](https://img.shields.io/github/license/vc4u2c/GitHubActionsDemo)
+![License](https://img.shields.io/github/license/vc4u2c/GitHubActionsDemo)
 
 - .NET 7 Minimal Web API with Tests & Code Coverage using GitHub Actions
 - Infrastructure automation using Bicep
@@ -17,7 +17,7 @@
 - Code Coverage and Code Converage reporting
 - [How To Deploy Your Application To Azure Using GitHub Actions | CI/CD Pipeline](https://www.youtube.com/watch?v=QP0pi7xe24s)
 
-### Installation
+## Installation
 
 ### Create Solution
 
