@@ -21,7 +21,7 @@
 
 ### Create Solution
 
-```
+```powershell
 cd C:\Users\Vinod Chandran\Documents\Source\Repos\Azure
 dotnet new sln -o GitHubActionsDemo
 md src
@@ -47,7 +47,7 @@ git init -b main
 
 ### Run locally
 
-```
+```powershell
 # Run on VS Studio GitHubActionsDemo.WebApi to and use tests.http to test that project
 # To test the GitHubActionsDemo.WebApi.Tests project. Use dotnet run or use the VS Test Explorer
 
@@ -66,7 +66,7 @@ reportgenerator `
 
 ### Create Infrastructure in Azure
 
-```
+```powershell
 # Check if we are logged in
 az account show
 
