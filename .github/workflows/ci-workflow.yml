@@ -85,3 +85,5 @@ jobs:
     with: 
       RESOURCE_GROUP_NAME: ${{ needs.ci.outputs.RESOURCE_GROUP_NAME }}
     secrets: inherit
+    if: ${{ needs.ci.outputs.BICEP_CHANGED == 'true' }}
+    
