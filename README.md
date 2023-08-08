@@ -116,10 +116,11 @@ gh variable set APPLICATION_NAME -b "githubactionsdemo" -R vc4u2c/GitHubActionsD
 gh variable set LOCATION -b "eastus" -R vc4u2c/GitHubActionsDemo
 gh variable set ENVIRONMENT -b "dev" -R vc4u2c/GitHubActionsDemo
 
+# Install Versionize
+dotnet tool install --global Versionize
+
 # Final Run
-az deployment group create -g rg-azurecacheforredisdemo-dev-eastus -f deploy.bicep
-# Hit Post endpoint in tests.http and see logs in Log Stream of Function App and API App Service
-# Connect to Az instance using stunnel and publish a message and see in app service logs that it has been subscribed to
+# Hit endpoints in tests.http
 ```
 
 ### Teardown
@@ -136,3 +137,4 @@ Delete resource group rg-githubactionsdemo-dev-eastus
 - [Managing the automatic deletion of branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-the-automatic-deletion-of-branches)
 - [Quickstart: Deploy Bicep files by using GitHub Actions](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=userlevel%2CCLI)
 - [GitHub CLI](https://cli.github.com/)
+- [Automatically version and release .Net Application](https://blog.antosubash.com/posts/automatic-version-and-release#conventional-commits)
