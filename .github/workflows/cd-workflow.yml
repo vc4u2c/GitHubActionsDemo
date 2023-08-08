@@ -45,5 +45,5 @@ jobs:
           app-name: ${{ env.APP_SERVICE_NAME }}
           publish-profile: ${{ steps.get-publish-profile.outputs.APP_SERVICE_PUBLIC_PROFILE }}
           package: ${{ env.PACKAGE_PATH }}
-          slot-name: "staging"
+          # slot-name: "staging"
           images:

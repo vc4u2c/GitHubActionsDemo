@@ -80,7 +80,7 @@ az account subscription list
 # Create Resource Group
 az group create --name rg-githubactionsdemo-dev-eastus --location eastus
 
-az ad sp create-for-rbac --name spgithubactionsdemo --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/rg-githubactionsdemo-dev-eastus
+az ad sp create-for-rbac --name spgithubactionsdemo --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/rg-githubactionsdemo-dev-eastus --sdk-auth
 
 # Download Github CLI and install
 https://cli.github.com/
