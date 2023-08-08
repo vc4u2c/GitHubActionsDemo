@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       BICEP_CHANGED: ${{ steps.bicep-changes.outputs.src }}
+      RESOURCE_GROUP_NAME: ${{ env.RESOURCE_GROUP_NAME }}
 
     steps:
       - name: Checkout Code from Git Repo
@@ -80,12 +81,6 @@ jobs:
   iac:
     name: Call IaC Workflow Job
     needs: ci
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Call IaC Workflow
-        uses: ./.github/workflows/iac-workflow.yml
-        with: 
-          RESOURCE_GROUP_NAME: ${{ env.RESOURCE_GROUP_NAME }}
+    uses: vc4u2c/GitHubActionsDemo/.github/workflows/iac-workflow.yml@main
+    with: 
+      RESOURCE_GROUP_NAME: ${{ needs.ci.outputs.RESOURCE_GROUP_NAME }}
