@@ -5,6 +5,10 @@ on:
   push:
     branches:
       - main
+
+permissions:
+  contents: write
+  
 env:
   PACKAGE_PATH: "./publish"
   RESOURCE_GROUP_NAME: 
